@@ -50,7 +50,9 @@
         android:layout_below="@+id/textView19"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:onClick="delete" />
 
     <Button
         android:text="取消"
@@ -60,7 +62,9 @@
         android:layout_alignBaseline="@+id/buttonDelete"
         android:layout_alignBottom="@+id/buttonDelete"
         android:layout_alignLeft="@+id/textViewData"
-        android:layout_alignStart="@+id/textViewData" />
+        android:layout_alignStart="@+id/textViewData"
+        android:clickable="true"
+        android:onClick="cancel"/>
 
     <TextView
         android:text="資料"

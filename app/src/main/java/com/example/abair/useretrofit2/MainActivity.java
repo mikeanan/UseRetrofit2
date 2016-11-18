@@ -1,7 +1,11 @@
 package com.example.abair.useretrofit2;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -33,8 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
         AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(MainActivity.this, "Hello Toast", Toast.LENGTH_LONG).show();
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                Toast.makeText(MainActivity.this, adapter.getItem(position), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, DeleteActivity.class);
+//                intent.putExtra("test", "hello");// key-value
+                intent.putExtra("cName", adapter.getItem(position));
+//                startActivity(intent);
+                startActivityForResult(intent,0);
             }
         };
         item_list.setOnItemClickListener(onItemClickListener);
@@ -67,5 +76,23 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+
+        System.out.println("onActivityResult");
+
+        if(resultCode == Activity.RESULT_CANCELED)
+        {
+            System.out.println("Cancel");
+        }
+
+
+        if(resultCode == Activity.RESULT_OK)
+        {
+            System.out.println("Delete");
+        }
     }
 }

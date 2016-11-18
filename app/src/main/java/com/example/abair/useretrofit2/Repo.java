@@ -5,6 +5,13 @@ package com.example.abair.useretrofit2;
  */
 
 public class Repo {
-    int id;
-    String name;
+//    int id;
+//    String name;
+    int cID;
+    String cName;
+    String cSex;
+    String cBirthday;
+    String cEmail;
+    String cPhone;
+    String cAddr;
 }
