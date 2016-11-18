@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Iterator it = result.iterator();
                 while(it.hasNext())
-                    System.out.println(((Repo) it.next()).name);
+                    adapter.add(((Repo) it.next()).name);
             }
 
             @Override
