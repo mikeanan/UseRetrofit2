@@ -3,6 +3,7 @@ package com.example.abair.useretrofit2;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 List<Repo> result = response.body();
+//                System.out.println(result.get(0).name);
+//                System.out.println(result.get(1).name);
+
+                Iterator it = result.iterator();
+                while(it.hasNext())
+                    System.out.println(((Repo) it.next()).name);
             }
 
             @Override
@@ -41,16 +48,5 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-
     }
-}
-
-interface GitHubService {
-    @GET("users/{user}/repos")
-    Call<List<Repo>> listRepos(@Path("user") String user);
-}
-
-class Repo {
-    int id;
-    String name;
 }
