@@ -15,6 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, layoutID);
         ListView item_list = (ListView) findViewById(R.id.item_list);
         item_list.setAdapter(adapter);
+
+        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(MainActivity.this, "Hello Toast", Toast.LENGTH_LONG).show();
+            }
+        };
+        item_list.setOnItemClickListener(onItemClickListener);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
