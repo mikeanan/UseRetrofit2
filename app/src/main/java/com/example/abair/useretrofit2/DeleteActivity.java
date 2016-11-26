@@ -45,8 +45,19 @@ public class DeleteActivity extends AppCompatActivity {
             ++counter;
         }
 
+        Repo repo = myApp.result.get(position);
         TextView textViewcName = (TextView) findViewById(R.id.textViewDataName);
-        textViewcName.setText(cName);
+        textViewcName.setText(repo.cName);
+        TextView textViewcSex = (TextView) findViewById(R.id.textViewDataGender);
+        textViewcSex.setText(repo.cSex);
+        TextView textViewcBirth = (TextView) findViewById(R.id.textViewDataBirth);
+        textViewcBirth.setText(repo.cBirthday);
+        TextView textViewcEmail = (TextView) findViewById(R.id.textViewDataEmail);
+        textViewcEmail.setText(repo.cEmail);
+        TextView textViewcPhone = (TextView) findViewById(R.id.textViewDataPhone);
+        textViewcPhone.setText(repo.cPhone);
+        TextView textViewcAddr = (TextView) findViewById(R.id.textViewDataAddress);
+        textViewcAddr.setText(repo.cAddr);
 
     }
 
