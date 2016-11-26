@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         myApp.service = retrofit.create(GitHubService.class);
 
 //        Call<List<Repo>> repos = service.listRepos("octocat");
-        Call<List<Repo>> repos = service.listRepos();
+//        Call<List<Repo>> repos = service.listRepos();
         myApp.repos = myApp.service.listRepos();
 
 
