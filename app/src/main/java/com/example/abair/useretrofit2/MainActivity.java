@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 //        String[] data = { "Test1", "Test2", "Test3" };
         int layoutID = android.R.layout.simple_list_item_1;
 //        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, layoutID, data);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, layoutID);
+        adapter = new ArrayAdapter<String>(this, layoutID);
         ListView item_list = (ListView) findViewById(R.id.item_list);
         item_list.setAdapter(adapter);
 
@@ -62,10 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        Call<List<Repo>> repos = service.listRepos("octocat");
         Call<List<Repo>> repos = service.listRepos();
+        myApp.repos = myApp.service.listRepos();
 
 
         //非同步呼叫
-        repos.enqueue(new Callback<List<Repo>>() {
+        myApp.repos.enqueue(new Callback<List<Repo>>() {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 MyApp myApp = (MyApp) getApplicationContext();
@@ -111,11 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     System.out.println("delete OK");
-
-                    MyApp myApp = (MyApp) getApplicationContext();
-//                    myApp.result.remove(position);
-                        adapter.remove(adapter.getItem(position));
-                        adapter.notifyDataSetChanged();
+                    updateListView();
                 }
 
                 @Override
@@ -126,5 +125,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         }
+    }
+
+    public void updateListView() {
+        MyApp myApp = (MyApp) getApplicationContext();
+        Call<List<Repo>> reposClone = myApp.repos.clone();
+        reposClone.enqueue(new Callback<List<Repo>>() {
+            @Override
+            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
+                MyApp myApp = (MyApp) getApplicationContext();
+                myApp.result = response.body();
+
+                Iterator it = myApp.result.iterator();
+                adapter.clear();
+                while(it.hasNext()) {
+                    adapter.add(((Repo) it.next()).cName);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Repo>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }

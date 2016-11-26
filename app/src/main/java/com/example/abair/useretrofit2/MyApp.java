@@ -15,5 +15,6 @@ import retrofit2.Call;
 public class MyApp extends Application {
     List<Repo> result;
     GitHubService service;
+    Call<List<Repo>> repos;
     Call<ResponseBody> delete;
 }
