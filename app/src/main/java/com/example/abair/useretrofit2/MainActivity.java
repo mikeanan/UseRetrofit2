@@ -40,10 +40,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 //                Toast.makeText(MainActivity.this, adapter.getItem(position), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, DeleteActivity.class);
-//                intent.putExtra("test", "hello");// key-value
-                intent.putExtra("cName", adapter.getItem(position));
+                intent.putExtra("position", position);
 //                startActivity(intent);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
             }
         };
         item_list.setOnItemClickListener(onItemClickListener);

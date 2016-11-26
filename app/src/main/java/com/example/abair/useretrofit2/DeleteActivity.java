@@ -16,8 +16,30 @@ public class DeleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delete);
 
         Intent intent = getIntent();
-        String cName = (String) intent.getExtras().getSerializable("cName");
-        System.out.println(cName);
+        position = (int) intent.getExtras().getSerializable("position");
+
+        Iterator it = myApp.result.iterator();
+        int counter = 0;
+
+        while(it.hasNext()){
+            Repo repo = (Repo)it.next();
+            if(counter == positon){
+                TextView textViewcName = (TextView) findViewById(R.id.textViewDataName);
+                textViewcName.setText(repo.cName);
+                TextView textViewcSex = (TextView) findViewById(R.id.textViewDataGender);
+                textViewcSex.setText(repo.cSex);
+                TextView textViewcBirth = (TextView) findViewById(R.id.textViewDataBirth);
+                textViewcBirth.setText(repo.cBirthday);
+                TextView textViewcEmail = (TextView) findViewById(R.id.textViewDataEmail);
+                textViewcEmail.setText(repo.cEmail);
+                TextView textViewcPhone = (TextView) findViewById(R.id.textViewDataPhone);
+                textViewcPhone.setText(repo.cPhone);
+                TextView textViewcAddr = (TextView) findViewById(R.id.textViewDataAddress);
+                textViewcAddr.setText(repo.cAddr);
+                break;
+            }
+            ++counter;
+        }
 
         TextView textViewcName = (TextView) findViewById(R.id.textViewDataName);
         textViewcName.setText(cName);

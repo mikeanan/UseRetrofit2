@@ -6,7 +6,7 @@ package com.example.abair.useretrofit2;
 
 public class Repo {
 //    int id;
-//    String name;
+    String name;
     int cID;
     String cName;
     String cSex;
