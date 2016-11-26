@@ -62,14 +62,16 @@ public class MainActivity extends AppCompatActivity {
         repos.enqueue(new Callback<List<Repo>>() {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-                List<Repo> result = response.body();
+                MyApp myApp = (MyApp) getApplicationContext();
+                myApp.result = response.body();
 //                System.out.println(result.get(0).name);
 //                System.out.println(result.get(1).name);
 
-                Iterator it = result.iterator();
-                while(it.hasNext())
+                Iterator it = myApp.result.iterator();
+                while(it.hasNext()) {
 //                    adapter.add(((Repo) it.next()).name);
                     adapter.add(((Repo) it.next()).cName);
+                }
             }
 
             @Override

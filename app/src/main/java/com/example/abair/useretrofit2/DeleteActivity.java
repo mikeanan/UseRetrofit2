@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Iterator;
+
 public class DeleteActivity extends AppCompatActivity {
 
     @Override
@@ -16,14 +18,16 @@ public class DeleteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_delete);
 
         Intent intent = getIntent();
+        int position;
         position = (int) intent.getExtras().getSerializable("position");
 
+        MyApp myApp = (MyApp) getApplicationContext();
         Iterator it = myApp.result.iterator();
         int counter = 0;
 
         while(it.hasNext()){
             Repo repo = (Repo)it.next();
-            if(counter == positon){
+            if(counter == position){
                 TextView textViewcName = (TextView) findViewById(R.id.textViewDataName);
                 textViewcName.setText(repo.cName);
                 TextView textViewcSex = (TextView) findViewById(R.id.textViewDataGender);
