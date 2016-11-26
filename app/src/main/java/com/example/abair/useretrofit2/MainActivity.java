@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Iterator;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        GitHubService service = retrofit.create(GitHubService.class);
+        MyApp myApp = (MyApp) getApplicationContext();
+        myApp.service = retrofit.create(GitHubService.class);
+
 //        Call<List<Repo>> repos = service.listRepos("octocat");
         Call<List<Repo>> repos = service.listRepos();
 
@@ -96,6 +102,29 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode == Activity.RESULT_OK)
         {
             System.out.println("Delete");
+            final int position = (int) data.getExtras().getSerializable("position");
+
+            MyApp myApp = (MyApp) getApplicationContext();
+//            String tmp = String.valueOf(myApp.result.get(position).cID);
+            myApp.delete = myApp.service.delete(String.valueOf(myApp.result.get(position).cID));
+            myApp.delete.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    System.out.println("delete OK");
+
+                    MyApp myApp = (MyApp) getApplicationContext();
+//                    myApp.result.remove(position);
+                        adapter.remove(adapter.getItem(position));
+                        adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    System.out.println("delete fail...");
+                }
+            });
+        }
+
         }
     }
 }
