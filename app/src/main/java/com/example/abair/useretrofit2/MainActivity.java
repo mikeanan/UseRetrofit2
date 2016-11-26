@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
 //        String[] data = { "Test1", "Test2", "Test3" };
         int layoutID = android.R.layout.simple_list_item_1;
 //        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, layoutID, data);
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
+
+
     }
 
     @Override
@@ -139,6 +141,36 @@ public class MainActivity extends AppCompatActivity {
             repo.cEmail = "chennanbang@gamil.com";
             repo.cPhone = "0933596597";
             repo.cSex = "male";
+//            myApp.add = myApp.service.add(repo);
+//            myApp.add.enqueue(new Callback<ResponseBody>() { // JSON Type
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    System.out.println("Add OK");
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    System.out.println("Add fail...");
+//
+//                }
+//            });
+
+//            String tmp = "'cName'='mike', 'cAddr'='', 'cBirthday'='', 'cEmail'='', 'cPhone'='', 'cSex'=''";
+//
+//            RequestBody body = RequestBody.create(MediaType.parse("text/plain"), tmp);
+//            myApp.addByPlainText = myApp.service.addByPlainText(body);
+//            myApp.addByPlainText.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    System.out.println("Add by plain text OK");
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    System.out.println("Add by plain text fail...");
+//                }
+//            });
+
             myApp.addByFormPost = myApp.service.addByFormPost(repo.cName,repo.cSex,repo.cBirthday,repo.cEmail,repo.cPhone,repo.cAddr);
             myApp.addByFormPost.enqueue(new Callback<ResponseBody>() {
                 @Override

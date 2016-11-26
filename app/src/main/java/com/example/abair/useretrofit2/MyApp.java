@@ -17,5 +17,7 @@ public class MyApp extends Application {
     GitHubService service;
     Call<List<Repo>> repos;
     Call<ResponseBody> delete;
+//    Call<ResponseBody> add;
+//    Call<ResponseBody> addByPlainText;
     Call<ResponseBody> addByFormPost;
 }

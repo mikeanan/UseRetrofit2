@@ -26,6 +26,11 @@ public interface GitHubService {
     @GET("api/api_delete.php")
     Call<ResponseBody> delete(@Query("cID") String cID);
 
+//    @POST("api/api_add_post.php")
+//    Call<ResponseBody> add(@Body Repo repo);
+//
+//    @POST("api/api_add_post.php")
+//    Call<ResponseBody> addByPlainText(@Body RequestBody body);
 
     @FormUrlEncoded
     @POST("api/api_add_post.php")
