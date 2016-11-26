@@ -96,35 +96,68 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("onActivityResult");
 
-        if(resultCode == Activity.RESULT_CANCELED)
-        {
-            System.out.println("Cancel");
+        if(requestCode == 0) {
+            if(resultCode == Activity.RESULT_CANCELED)
+            {
+                System.out.println("Cancel");
+            }
+
+
+            if(resultCode == Activity.RESULT_OK)
+            {
+                System.out.println("Delete");
+//            myApp.repos = service.listRepos();
+
+//            Intent intent = getIntent();
+                final int position = (int) data.getExtras().getSerializable("position");
+
+                MyApp myApp = (MyApp) getApplicationContext();
+//            String tmp = String.valueOf(myApp.result.get(position).cID);
+                myApp.delete = myApp.service.delete(String.valueOf(myApp.result.get(position).cID));
+                myApp.delete.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        System.out.println("delete OK");
+                        updateListView();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        System.out.println("delete fail...");
+                    }
+                });
+            }
         }
 
-
-        if(resultCode == Activity.RESULT_OK)
+        if( requestCode == 1 && resultCode == Activity.RESULT_OK)
         {
-            System.out.println("Delete");
-            final int position = (int) data.getExtras().getSerializable("position");
-
             MyApp myApp = (MyApp) getApplicationContext();
-//            String tmp = String.valueOf(myApp.result.get(position).cID);
-            myApp.delete = myApp.service.delete(String.valueOf(myApp.result.get(position).cID));
-            myApp.delete.enqueue(new Callback<ResponseBody>() {
+            Repo repo = new Repo();
+            repo.cName = "mike";
+            repo.cAddr = "地球";
+            repo.cBirthday = "1974-04-03";
+            repo.cEmail = "chennanbang@gamil.com";
+            repo.cPhone = "0933596597";
+            repo.cSex = "male";
+            myApp.addByFormPost = myApp.service.addByFormPost(repo.cName,repo.cSex,repo.cBirthday,repo.cEmail,repo.cPhone,repo.cAddr);
+            myApp.addByFormPost.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    System.out.println("delete OK");
+                    System.out.println("Add by form post OK");
                     updateListView();
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    System.out.println("delete fail...");
+                    System.out.println("Add by form post OK");
                 }
             });
         }
+    }
 
-        }
+    public void add(View view) {
+        Intent intent = new Intent(MainActivity.this, AddActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     public void updateListView() {
