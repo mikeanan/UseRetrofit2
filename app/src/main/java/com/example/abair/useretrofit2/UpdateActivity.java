@@ -21,6 +21,8 @@ public class UpdateActivity extends AppCompatActivity {
 
         MyApp myApp = (MyApp) getApplicationContext();//取得要顯示在更新頁面的資料
         Repo repo = myApp.result.get(position);
+        myApp.StudentInformation.cID = repo.cID;//需要設定 cID 否則無法執行修改，因為預設值 = 0
+
         EditText cName = (EditText) findViewById(R.id.textViewDataName);
         cName.setText(repo.cName);
         EditText cSex = (EditText) findViewById(R.id.textViewDataGender);

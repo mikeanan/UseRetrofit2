@@ -87,35 +87,35 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
             }
         });
 
-        Repo repo = new Repo();
-        repo.cID = 20;
-        repo.cName = "mike";
-        repo.cAddr = "地球";
-        repo.cBirthday = "1974-04-03";
-        repo.cEmail = "chennanbang@gamil.com";
-        repo.cPhone = "0933596597";
-        repo.cSex = "m";
-
-        myApp.updateByGet = myApp.service.updateByGet(  repo.cID,
-                                                        repo.cName,
-                                                        repo.cSex,
-                                                        repo.cBirthday,
-                                                        repo.cEmail,
-                                                        repo.cPhone,
-                                                        repo.cAddr);
-
-        myApp.updateByGet.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                System.out.println("Update by Get OK" + response.toString());
-                updateListView();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+//        Repo repo = new Repo();//測試成功的修改的程式碼
+//        repo.cID = 20;
+//        repo.cName = "mike";
+//        repo.cAddr = "地球";
+//        repo.cBirthday = "1974-04-03";
+//        repo.cEmail = "chennanbang@gamil.com";
+//        repo.cPhone = "0933596597";
+//        repo.cSex = "m";
+//
+//        myApp.updateByGet = myApp.service.updateByGet(  repo.cID,
+//                                                        repo.cName,
+//                                                        repo.cSex,
+//                                                        repo.cBirthday,
+//                                                        repo.cEmail,
+//                                                        repo.cPhone,
+//                                                        repo.cAddr);
+//
+//        myApp.updateByGet.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                System.out.println("Update by Get OK" + response.toString());
+//                updateListView();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -220,6 +220,31 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
                 }
             });
         }
+
+        if( requestCode == 2 && resultCode == Activity.RESULT_OK)//更新頁面回傳
+        {
+            MyApp myApp = (MyApp) getApplicationContext();//執行之前測試成功的修改的程式碼
+            myApp.updateByGet = myApp.service.updateByGet(  myApp.StudentInformation.cID,
+                                                            myApp.StudentInformation.cName,
+                                                            myApp.StudentInformation.cSex,
+                                                            myApp.StudentInformation.cBirthday,
+                                                            myApp.StudentInformation.cEmail,
+                                                            myApp.StudentInformation.cPhone,
+                                                            myApp.StudentInformation.cAddr);
+
+            myApp.updateByGet.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    System.out.println("Update by Get OK" + response.toString());
+                    updateListView();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     public void add(View view) {
@@ -267,6 +292,9 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
         }
         else {
             string = "Update";
+            Intent intent = new Intent(MainActivity.this, UpdateActivity.class);//執行 update 的程式碼
+            intent.putExtra("position", position);
+            startActivityForResult(intent, 2);
         }
         Toast.makeText(MainActivity.this, "Button click position:" + String.valueOf(position)+ string,
                 Toast.LENGTH_SHORT).show();
