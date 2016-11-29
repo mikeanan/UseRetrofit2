@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
 //        int layoutID = android.R.layout.simple_list_item_1;
         int layoutID = R.layout.singleitem;
 //        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, layoutID, data);
-        adapter = new ArrayAdapter<String>(this, layoutID);
+//        adapter = new ArrayAdapter<String>(this, layoutID);
+        adapter = new ItemAdapter(this,layoutID);
         ListView item_list = (ListView) findViewById(R.id.item_list);
         item_list.setAdapter(adapter);
 
