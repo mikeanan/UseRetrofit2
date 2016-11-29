@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
 
                 Iterator it = myApp.result.iterator();
                 while(it.hasNext()) {
-                    adapter.add(((Repo) it.next()).name);
-//                    adapter.add(((Repo) it.next()).cName);
+//                    adapter.add(((Repo) it.next()).name);
+                    adapter.add(((Repo) it.next()).cName);
                 }
             }
 
@@ -259,8 +259,12 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
     @Override
     public void onButtonClickListner(int position, int id) {//interface 在這實現，用做判斷所按的項目及按鈕的地方
         String string;
-        if( id == R.id.itemButtonDelete)
+        if( id == R.id.itemButtonDelete) {
             string = "Delete";
+            Intent intent = new Intent(MainActivity.this, DeleteActivity.class);//執行之前的 delete 的幾行程式碼
+            intent.putExtra("position", position);
+            startActivityForResult(intent, 0);
+        }
         else {
             string = "Update";
         }
