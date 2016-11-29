@@ -21,28 +21,28 @@ public class DeleteActivity extends AppCompatActivity {
         position = (int) intent.getExtras().getSerializable("position");
 
         MyApp myApp = (MyApp) getApplicationContext();
-        Iterator it = myApp.result.iterator();
-        int counter = 0;
-
-        while(it.hasNext()){
-            Repo repo = (Repo)it.next();
-            if(counter == position){
-                TextView textViewcName = (TextView) findViewById(R.id.textViewDataName);
-                textViewcName.setText(repo.cName);
-                TextView textViewcSex = (TextView) findViewById(R.id.textViewDataGender);
-                textViewcSex.setText(repo.cSex);
-                TextView textViewcBirth = (TextView) findViewById(R.id.textViewDataBirth);
-                textViewcBirth.setText(repo.cBirthday);
-                TextView textViewcEmail = (TextView) findViewById(R.id.textViewDataEmail);
-                textViewcEmail.setText(repo.cEmail);
-                TextView textViewcPhone = (TextView) findViewById(R.id.textViewDataPhone);
-                textViewcPhone.setText(repo.cPhone);
-                TextView textViewcAddr = (TextView) findViewById(R.id.textViewDataAddress);
-                textViewcAddr.setText(repo.cAddr);
-                break;
-            }
-            ++counter;
-        }
+//        Iterator it = myApp.result.iterator();
+//        int counter = 0;
+//
+//        while(it.hasNext()){
+//            Repo repo = (Repo)it.next();
+//            if(counter == position){
+//                TextView textViewcName = (TextView) findViewById(R.id.textViewDataName);
+//                textViewcName.setText(repo.cName);
+//                TextView textViewcSex = (TextView) findViewById(R.id.textViewDataGender);
+//                textViewcSex.setText(repo.cSex);
+//                TextView textViewcBirth = (TextView) findViewById(R.id.textViewDataBirth);
+//                textViewcBirth.setText(repo.cBirthday);
+//                TextView textViewcEmail = (TextView) findViewById(R.id.textViewDataEmail);
+//                textViewcEmail.setText(repo.cEmail);
+//                TextView textViewcPhone = (TextView) findViewById(R.id.textViewDataPhone);
+//                textViewcPhone.setText(repo.cPhone);
+//                TextView textViewcAddr = (TextView) findViewById(R.id.textViewDataAddress);
+//                textViewcAddr.setText(repo.cAddr);
+//                break;
+//            }
+//            ++counter;
+//        }
 
         Repo repo = myApp.result.get(position);
         TextView textViewcName = (TextView) findViewById(R.id.textViewDataName);
