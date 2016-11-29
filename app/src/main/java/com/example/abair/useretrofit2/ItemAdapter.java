@@ -49,6 +49,39 @@ public class ItemAdapter extends ArrayAdapter<String> {
         TextView textView = (TextView) itemView.findViewById(R.id.itemTextView);//實現後，設定 TextView 及按鈕
         textView.setText(string);
 
+        Button updateButton = (Button) itemView.findViewById(R.id.itemButtonUpdate);//開始設定 button listener
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(customListner != null)
+                    customListner.onButtonClickListner(position, R.id.itemButtonUpdate);//傳給主頁面，執行按鈕後的動作
+            }
+        });
+
+        Button deleteButton = (Button) itemView.findViewById(R.id.itemButtonDelete);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(customListner != null)
+                    customListner.onButtonClickListner(position, R.id.itemButtonDelete);//傳給主頁面，執行按鈕後的動作
+            }
+        });
+
         return itemView;
+    }
+
+    @Override
+    public void add(String object) {//可以在這樣新增項目做進一步的處理
+        super.add(object);
+    }
+
+    customButtonListener customListner;
+
+    public interface customButtonListener {//宣告介面，在 主頁面實現 可以執行按下按鈕之後所需的動作
+        public void onButtonClickListner(int position, int id);
+    }
+
+    public void setCustomButtonListner(customButtonListener listener) {//在主頁面執行，綁定主頁面實現的 listener
+        this.customListner = listener;
     }
 }
