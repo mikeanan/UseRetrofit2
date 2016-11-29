@@ -122,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
         {
             MyApp myApp = (MyApp) getApplicationContext();
             Repo repo = new Repo();
-            repo.cName = "mike";
-            repo.cAddr = "地球";
-            repo.cBirthday = "1974-04-03";
-            repo.cEmail = "chennanbang@gamil.com";
-            repo.cPhone = "0933596597";
-            repo.cSex = "male";
+            repo.cName = (String) data.getExtras().getSerializable("cName");//從 Intent 得到要新增的資料
+            repo.cAddr = (String) data.getExtras().getSerializable("cAddr");
+            repo.cBirthday = (String) data.getExtras().getSerializable("cBirthday");
+            repo.cEmail = (String) data.getExtras().getSerializable("cEmail");
+            repo.cPhone = (String) data.getExtras().getSerializable("cPhone");
+            repo.cSex = (String) data.getExtras().getSerializable("cSex");
 //            myApp.add = myApp.service.add(repo);
 //            myApp.add.enqueue(new Callback<ResponseBody>() { // JSON Type
 //                @Override
@@ -158,7 +158,20 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            });
 
-            myApp.addByFormPost = myApp.service.addByFormPost(repo.cName,repo.cSex,repo.cBirthday,repo.cEmail,repo.cPhone,repo.cAddr);
+            myApp.addByFormPost = myApp.service.addByFormPost(
+//                    repo.cName,
+//                    repo.cSex,
+//                    repo.cBirthday,
+//                    repo.cEmail,
+//                    repo.cPhone,
+//                    repo.cAddr);
+                    myApp.StudentInformation.cName,//從 全域變數 得到要新增的資料
+                    myApp.StudentInformation.cSex,
+                    myApp.StudentInformation.cBirthday,
+                    myApp.StudentInformation.cEmail,
+                    myApp.StudentInformation.cPhone,
+                    myApp.StudentInformation.cAddr);
+
             myApp.addByFormPost.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
