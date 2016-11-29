@@ -21,11 +21,11 @@ public class ItemAdapter extends ArrayAdapter<String> {
     private int resource;
     private List<String> items;
 
-    public ItemAdapter(Context context, int resource, List<String> items){
-        super(context, resource, items);
+    public ItemAdapter(Context context, int resource/*, List<String> items*/){//第3個參數沒有用到，因為項目資料是後來動態加入的
+        super(context, resource/*, items*/);
 
         this.resource = resource;//儲存 自定義的 layout ID
-        this.items = items;
+//        this.items = items;
     }
 
     @NonNull
@@ -45,6 +45,9 @@ public class ItemAdapter extends ArrayAdapter<String> {
         else {
             itemView = (LinearLayout) convertView;
         }
+
+        TextView textView = (TextView) itemView.findViewById(R.id.itemTextView);//實現後，設定 TextView 及按鈕
+        textView.setText(string);
 
         return itemView;
     }
