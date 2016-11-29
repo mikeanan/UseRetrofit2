@@ -13,17 +13,12 @@ import android.widget.ListView;
 import java.util.Iterator;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.makeText(MainActivity.this, adapter.getItem(position), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, DeleteActivity.class);
                 intent.putExtra("position", position);
-//                startActivity(intent);
                 startActivityForResult(intent, 0);
             }
         };
@@ -63,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         myApp.service = retrofit.create(GitHubService.class);
 
 //        Call<List<Repo>> repos = service.listRepos("octocat");
-//        Call<List<Repo>> repos = service.listRepos();
         myApp.repos = myApp.service.listRepos();
 
 
@@ -73,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 MyApp myApp = (MyApp) getApplicationContext();
                 myApp.result = response.body();
-//                System.out.println(result.get(0).name);
-//                System.out.println(result.get(1).name);
 
                 Iterator it = myApp.result.iterator();
                 while(it.hasNext()) {
@@ -108,13 +99,9 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK)
             {
                 System.out.println("Delete");
-//            myApp.repos = service.listRepos();
-
-//            Intent intent = getIntent();
                 final int position = (int) data.getExtras().getSerializable("position");
 
                 MyApp myApp = (MyApp) getApplicationContext();
-//            String tmp = String.valueOf(myApp.result.get(position).cID);
                 myApp.delete = myApp.service.delete(String.valueOf(myApp.result.get(position).cID));
                 myApp.delete.enqueue(new Callback<ResponseBody>() {
                     @Override
