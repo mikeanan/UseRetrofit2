@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayAdapter<String> adapter;
+    ItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        String[] data = { "Test1", "Test2", "Test3" };
-        int layoutID = android.R.layout.simple_list_item_1;
+//        int layoutID = android.R.layout.simple_list_item_1;
+        int layoutID = R.layout.singleitem;
 //        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, layoutID, data);
         adapter = new ArrayAdapter<String>(this, layoutID);
         ListView item_list = (ListView) findViewById(R.id.item_list);
