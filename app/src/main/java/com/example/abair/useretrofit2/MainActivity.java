@@ -80,7 +80,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Repo repo = new Repo();
+        repo.cID = 20;
+        repo.cName = "mike";
+        repo.cAddr = "地球";
+        repo.cBirthday = "1974-04-03";
+        repo.cEmail = "chennanbang@gamil.com";
+        repo.cPhone = "0933596597";
+        repo.cSex = "m";
 
+        myApp.updateByGet = myApp.service.updateByGet(  repo.cID,
+                                                        repo.cName,
+                                                        repo.cSex,
+                                                        repo.cBirthday,
+                                                        repo.cEmail,
+                                                        repo.cPhone,
+                                                        repo.cAddr);
+
+        myApp.updateByGet.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println("Update by Get OK" + response.toString());
+                updateListView();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

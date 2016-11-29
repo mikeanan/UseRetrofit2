@@ -39,4 +39,12 @@ public interface GitHubService {
                                      @Field("cPhone") String cPhone,
                                      @Field("cAddr") String cAddr);
 
+    @GET("api/api_update_get.php")
+    Call<ResponseBody> updateByGet( @Query("cID") int cID,
+                                    @Query("cName") String cName,
+                                    @Query("cSex") String cSex,
+                                    @Query("cBirthday") String cBirthday,
+                                    @Query("cEmail") String cEmail,
+                                    @Query("cPhone") String cPhone,
+                                    @Query("cAddr") String cAddr);
 }

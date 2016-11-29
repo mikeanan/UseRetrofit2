@@ -19,6 +19,7 @@ public class MyApp extends Application {
 //    Call<ResponseBody> add;
 //    Call<ResponseBody> addByPlainText;
     Call<ResponseBody> addByFormPost;
+    Call<ResponseBody> updateByGet;
 
     Repo StudentInformation = new Repo();//定義一個全域變數 用來傳遞用來新增的資料給 MainActivity
 }
