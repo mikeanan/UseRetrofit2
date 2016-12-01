@@ -136,9 +136,25 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
                 System.out.println("Delete");
                 final int position = (int) data.getExtras().getSerializable("position");
 
+//                MyApp myApp = (MyApp) getApplicationContext();
+//                myApp.delete = myApp.service.delete(String.valueOf(myApp.result.get(position).cID));
+//                myApp.delete.enqueue(new Callback<ResponseBody>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                        System.out.println("delete OK");
+//                        updateListView();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                        System.out.println("delete fail...");
+//                    }
+//                });
+
+
                 MyApp myApp = (MyApp) getApplicationContext();
-                myApp.delete = myApp.service.delete(String.valueOf(myApp.result.get(position).cID));
-                myApp.delete.enqueue(new Callback<ResponseBody>() {
+                myApp.deleteByPost = myApp.service.deleteByPost(String.valueOf(myApp.result.get(position).cID));
+                myApp.deleteByPost.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         System.out.println("delete OK");
@@ -193,13 +209,34 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
 //                }
 //            });
 
-            myApp.addByFormPost = myApp.service.addByFormPost(
-//                    repo.cName,
-//                    repo.cSex,
-//                    repo.cBirthday,
-//                    repo.cEmail,
-//                    repo.cPhone,
-//                    repo.cAddr);
+//            myApp.addByFormPost = myApp.service.addByFormPost(
+////                    repo.cName,
+////                    repo.cSex,
+////                    repo.cBirthday,
+////                    repo.cEmail,
+////                    repo.cPhone,
+////                    repo.cAddr);
+//                    myApp.StudentInformation.cName,//從 全域變數 得到要新增的資料
+//                    myApp.StudentInformation.cSex,
+//                    myApp.StudentInformation.cBirthday,
+//                    myApp.StudentInformation.cEmail,
+//                    myApp.StudentInformation.cPhone,
+//                    myApp.StudentInformation.cAddr);
+//
+//            myApp.addByFormPost.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    System.out.println("Add by form post OK");
+//                    updateListView();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    System.out.println("Add by form post OK");
+//                }
+//            });
+
+            myApp.addByGet = myApp.service.addByGet(
                     myApp.StudentInformation.cName,//從 全域變數 得到要新增的資料
                     myApp.StudentInformation.cSex,
                     myApp.StudentInformation.cBirthday,
@@ -207,16 +244,16 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
                     myApp.StudentInformation.cPhone,
                     myApp.StudentInformation.cAddr);
 
-            myApp.addByFormPost.enqueue(new Callback<ResponseBody>() {
+            myApp.addByGet.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    System.out.println("Add by form post OK");
+                    System.out.println("Add by Get OK");
                     updateListView();
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    System.out.println("Add by form post OK");
+                    System.out.println("Add by Get OK");
                 }
             });
         }
@@ -224,15 +261,37 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
         if( requestCode == 2 && resultCode == Activity.RESULT_OK)//更新頁面回傳
         {
             MyApp myApp = (MyApp) getApplicationContext();//執行之前測試成功的修改的程式碼
-            myApp.updateByGet = myApp.service.updateByGet(  myApp.StudentInformation.cID,
-                                                            myApp.StudentInformation.cName,
-                                                            myApp.StudentInformation.cSex,
-                                                            myApp.StudentInformation.cBirthday,
-                                                            myApp.StudentInformation.cEmail,
-                                                            myApp.StudentInformation.cPhone,
-                                                            myApp.StudentInformation.cAddr);
+//            myApp.updateByGet = myApp.service.updateByGet(  myApp.StudentInformation.cID,
+//                                                            myApp.StudentInformation.cName,
+//                                                            myApp.StudentInformation.cSex,
+//                                                            myApp.StudentInformation.cBirthday,
+//                                                            myApp.StudentInformation.cEmail,
+//                                                            myApp.StudentInformation.cPhone,
+//                                                            myApp.StudentInformation.cAddr);
+//
+//            myApp.updateByGet.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    System.out.println("Update by Get OK" + response.toString());
+//                    updateListView();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                }
+//            });
 
-            myApp.updateByGet.enqueue(new Callback<ResponseBody>() {
+
+            myApp.updateByFormPost = myApp.service.updateByFormPost(    myApp.StudentInformation.cID,
+                                                                        myApp.StudentInformation.cName,
+                                                                        myApp.StudentInformation.cSex,
+                                                                        myApp.StudentInformation.cBirthday,
+                                                                        myApp.StudentInformation.cEmail,
+                                                                        myApp.StudentInformation.cPhone,
+                                                                        myApp.StudentInformation.cAddr);
+
+            myApp.updateByFormPost.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     System.out.println("Update by Get OK" + response.toString());

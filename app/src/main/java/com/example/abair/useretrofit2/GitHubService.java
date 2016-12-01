@@ -24,20 +24,33 @@ public interface GitHubService {
     @GET("api/api_delete.php")
     Call<ResponseBody> delete(@Query("cID") String cID);
 
+    @FormUrlEncoded
+    @POST("api/api_delete_post.php")
+    Call<ResponseBody> deleteByPost(@Field("cID") String cID);
+
 //    @POST("api/api_add_post.php")
 //    Call<ResponseBody> add(@Body Repo repo);
 //
 //    @POST("api/api_add_post.php")
 //    Call<ResponseBody> addByPlainText(@Body RequestBody body);
 
+
+    @GET("api/api_add_get.php")
+    Call<ResponseBody> addByGet( @Field("cName") String cName,
+                                 @Field("cSex") String cSex,
+                                 @Field("cBirthday") String cBirthday,
+                                 @Field("cEmail") String cEmail,
+                                 @Field("cPhone") String cPhone,
+                                 @Field("cAddr") String cAddr);
+
     @FormUrlEncoded
     @POST("api/api_add_post.php")
-    Call<ResponseBody> addByFormPost(@Field("cName") String cName,
-                                     @Field("cSex") String cSex,
-                                     @Field("cBirthday") String cBirthday,
-                                     @Field("cEmail") String cEmail,
-                                     @Field("cPhone") String cPhone,
-                                     @Field("cAddr") String cAddr);
+    Call<ResponseBody> addByFormPost(@Query("cName") String cName,
+                                     @Query("cSex") String cSex,
+                                     @Query("cBirthday") String cBirthday,
+                                     @Query("cEmail") String cEmail,
+                                     @Query("cPhone") String cPhone,
+                                     @Query("cAddr") String cAddr);
 
     @GET("api/api_update_get.php")
     Call<ResponseBody> updateByGet( @Query("cID") int cID,
@@ -47,4 +60,16 @@ public interface GitHubService {
                                     @Query("cEmail") String cEmail,
                                     @Query("cPhone") String cPhone,
                                     @Query("cAddr") String cAddr);
+
+
+    @FormUrlEncoded
+    @POST("api/api_update_post.php")
+    Call<ResponseBody> updateByFormPost( @Field("cID") int cID,
+                                         @Field("cName") String cName,
+                                         @Field("cSex") String cSex,
+                                         @Field("cBirthday") String cBirthday,
+                                         @Field("cEmail") String cEmail,
+                                         @Field("cPhone") String cPhone,
+                                         @Field("cAddr") String cAddr);
+
 }
