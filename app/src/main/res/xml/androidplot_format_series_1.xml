@@ -4,4 +4,6 @@
     linePaint.color="#00ffff"
     vertexPaint.strokeWidth="10dp"
     vertexPaint.color="#00aaff"
-    fillPaint.color="#00000000"/>
+    fillPaint.color="#00000000"
+    pointLabelFormatter.textPaint.color="#CCCCCC"
+    pointLabelFormatter.TextPaint.textSize="20dp"/>
