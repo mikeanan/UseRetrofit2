@@ -1,6 +1,11 @@
 package com.example.abair.useretrofit2;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -11,8 +16,9 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
-public class ChartActivity extends AppCompatActivity {
+public class ChartActivity extends AppCompatActivity implements SensorEventListener {
 
+    private XYPlot aprHistoryPlot = null;
     private XYPlot aprLevelsPlot = null;
 
     private SimpleXYSeries aLvSeries;
@@ -20,6 +26,8 @@ public class ChartActivity extends AppCompatActivity {
     private SimpleXYSeries rLvSeries;
 
     private Redrawer redrawer;
+    private SensorManager sensorManager = null;
+    private Sensor sensorOrientation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,20 @@ public class ChartActivity extends AppCompatActivity {
             barRenderer.setStyle(BarRenderer.Style.SIDE_BY_SIDE);
         }
 
+        sensorManager = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
+        for(Sensor sensor : sensorManager.getSensorList(Sensor.TYPE_ORIENTATION)) {
+            if(sensor.getType() == Sensor.TYPE_ORIENTATION){
+                sensorOrientation = sensor;
+            }
+        }
+
+        if(sensorOrientation == null){
+            sensorManager.unregisterListener(this);
+            finish();
+        }
+
+        sensorManager.registerListener(this, sensorOrientation, SensorManager.SENSOR_DELAY_UI);
+
         redrawer = new Redrawer(aprLevelsPlot, 3, false);
     }
 
@@ -63,5 +85,15 @@ public class ChartActivity extends AppCompatActivity {
     protected void onDestroy() {
         redrawer.finish();
         super.onDestroy();
+    }
+    
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
 }
