@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.androidplot.util.PixelUtils;
+import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
                                                                                     PixelUtils.dpToPix(5)},
                                                                         0));
 
+        //使用套件內建的方式，讓圖形看起來比較平滑   為圖形資料產生插入值
+        series1Format.setInterpolationParams( new CatmullRomInterpolator.Params(10,//每個線段插入的點數，可調整
+                                                                                CatmullRomInterpolator.Type.Centripetal));
 
         plot.addSeries(series1,series1Format);//將資料及顯示格式加入圖表
     }
