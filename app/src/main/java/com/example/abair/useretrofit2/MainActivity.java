@@ -1,8 +1,10 @@
 package com.example.abair.useretrofit2;
 
+import android.graphics.DashPathEffect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.androidplot.util.PixelUtils;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
@@ -31,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
 
         LineAndPointFormatter series1Format = new LineAndPointFormatter(this,
                                                                         R.xml.androidplot_format_series_1);//改用 xml 設定顯示格
+
+        //取得設定好的格式的畫筆，然後使用 android 內建效果設定虛線效
+        series1Format.getLinePaint().setPathEffect( new DashPathEffect(new float[]{PixelUtils.dpToPix(10),//套件內建工具，確保不同解析度，看起來顯示效果相同
+                                                                                    PixelUtils.dpToPix(5)},
+                                                                        0));
+
 
         plot.addSeries(series1,series1Format);//將資料及顯示格式加入圖表
     }
