@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
         plot = (XYPlot) findViewById(R.id.plot);//取得統計圖表實體
 
+        //宣告下方格點標籤內容
+        final String[] domainLabels = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"};
+
         //宣告套件使用的資料，套件使用的是 Java 的 Number
         Number[] series1Numbers = {1, 2, 3, 2, 1, 3, 5, 3, 1, 4, 8};//項目數量會有影響，目前是 11 個
 
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public StringBuffer format(Object o, StringBuffer stringBuffer, FieldPosition fieldPosition) {
                 //o:放格點內容的物件, stringBuffer:格點標籤字串
                 int i = Math.round(((Number) o).floatValue());//先取得物件內容，然後使用 round 做四捨五入
-                return stringBuffer.append(i);//標籤改內容
+                return stringBuffer.append(domainLabels[i]);//標籤改用自己定義的內容
             }
 
             @Override
