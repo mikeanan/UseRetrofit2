@@ -8,9 +8,13 @@ import com.androidplot.util.PixelUtils;
 import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,5 +49,20 @@ public class MainActivity extends AppCompatActivity {
                                                                                 CatmullRomInterpolator.Type.Centripetal));
 
         plot.addSeries(series1,series1Format);//將資料及顯示格式加入圖表
+
+        //修改圖表下方格點標籤，拿掉小數點   套件圖表可以取後各個元件，選定圖形下方的格點標籤，然後設定格式   套件使用 android 內建的格式
+        plot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setFormat(new Format() {//使用閉包設定格式
+            @Override
+            public StringBuffer format(Object o, StringBuffer stringBuffer, FieldPosition fieldPosition) {
+                //o:放格點內容的物件, stringBuffer:格點標籤字串
+                int i = Math.round(((Number) o).floatValue());//先取得物件內容，然後使用 round 做四捨五入
+                return stringBuffer.append(i);//標籤改內容
+            }
+
+            @Override
+            public Object parseObject(String s, ParsePosition parsePosition) {
+                return null;
+            }
+        });
     }
 }
