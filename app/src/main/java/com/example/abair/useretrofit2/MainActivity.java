@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
                                                 SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,//說明傳入的資料格式是只有 Y 的值
                                                 "Series1");//設定資料要使用的名稱
 
-        LineAndPointFormatter series1Format = new LineAndPointFormatter();//設定圖表顯示樣貌的格式，目前用預設值試試
+        LineAndPointFormatter series1Format = new LineAndPointFormatter(this,
+                                                                        R.xml.androidplot_format_series_1);//改用 xml 設定顯示格
 
         plot.addSeries(series1,series1Format);//將資料及顯示格式加入圖表
     }
