@@ -46,4 +46,22 @@ public class ChartActivity extends AppCompatActivity {
 
         redrawer = new Redrawer(aprLevelsPlot, 3, false);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        redrawer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        redrawer.pause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        redrawer.finish();
+        super.onDestroy();
+    }
 }
