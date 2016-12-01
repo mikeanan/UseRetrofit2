@@ -15,6 +15,11 @@
         style="@style/APDefacto.Dark"
         android:id="@+id/plot"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        ap:title="XY Plot"
+        ap:rangeTitle="rangeTitle Y"
+        ap:domainTitle="domainTitle X"
+        ap:lineLabels="left|bottom"
+        ap:lineLabelRotationBottom="-45"/>
 
 </RelativeLayout>
