@@ -316,6 +316,11 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
         startActivityForResult(intent, 2);
     }
 
+    public void chart(View view) {
+        Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+        startActivity(intent);
+    }
+
     public void updateListView() {
         MyApp myApp = (MyApp) getApplicationContext();
         Call<List<Repo>> reposClone = myApp.repos.clone();

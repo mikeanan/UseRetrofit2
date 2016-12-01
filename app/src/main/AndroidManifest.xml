@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".DeleteActivity" />
         <activity android:name=".AddActivity" />
-        <activity android:name=".UpdateActivity"></activity>
+        <activity android:name=".UpdateActivity" />
+        <activity android:name=".ChartActivity"></activity>
     </application>
 
 </manifest>
