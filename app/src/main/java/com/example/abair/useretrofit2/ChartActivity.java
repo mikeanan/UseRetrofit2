@@ -16,6 +16,8 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
+import java.util.Arrays;
+
 public class ChartActivity extends AppCompatActivity implements SensorEventListener {
 
     private XYPlot aprHistoryPlot = null;
@@ -45,6 +47,7 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
         aprLevelsPlot.addSeries(rLvSeries, new BarFormatter(Color.rgb(200, 0, 0), Color.rgb(0, 0, 0)));
 
         aprLevelsPlot.setRangeBoundaries(-180, 359, BoundaryMode.FIXED);
+        aprLevelsPlot.setDomainBoundaries(-1, 1, BoundaryMode.FIXED);
 
         BarRenderer barRenderer = aprLevelsPlot.getRenderer(BarRenderer.class);
         if(barRenderer != null) {
@@ -86,10 +89,15 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
         redrawer.finish();
         super.onDestroy();
     }
-    
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
+        aLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[0]}),
+                            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+        pLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[1]}),
+                            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+        rLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[2]}),
+                            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
     }
 
     @Override
