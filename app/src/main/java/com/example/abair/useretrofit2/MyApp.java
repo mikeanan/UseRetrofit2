@@ -13,8 +13,15 @@ import retrofit2.Call;
 
 public class MyApp extends Application {
     List<Repo> result;
+    List<demoData> resultDemoData;
+
     GitHubService service;
+
     Call<List<Repo>> repos;
+    Call<List<demoData>> readLatestOne;
+    Call<List<Repo>> readOpenData;
+
+    Call<List<Repo>> read;
     Call<ResponseBody> delete;
     Call<ResponseBody> deleteByPost;
 //    Call<ResponseBody> add;

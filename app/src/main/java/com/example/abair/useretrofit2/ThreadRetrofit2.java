@@ -3,6 +3,13 @@ package com.example.abair.useretrofit2;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.Iterator;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ThreadRetrofit2 implements Runnable {
 
     private static final int ONE_SECOND_MS = 1000;
@@ -11,8 +18,11 @@ public class ThreadRetrofit2 implements Runnable {
     private boolean keepRunning;
     private boolean keepAlive;
     private Thread thread;
+    private MyApp myApp;
 
     public ThreadRetrofit2(Context context, float maxRefreshRate, boolean startImmediately) {
+        this.myApp = (MyApp) context.getApplicationContext();
+
         setMaxRefreshRate(maxRefreshRate);
         thread = new Thread(this);
         thread.start();
@@ -45,7 +55,54 @@ public class ThreadRetrofit2 implements Runnable {
         try {
             while(keepAlive) {
                 if(keepRunning) {
-                    //要執行的程式碼，請放在這
+                    Call<List<demoData>> readLatestOneClone = myApp.readLatestOne.clone();
+                    readLatestOneClone.enqueue(new Callback<List<demoData>>() {
+                        @Override
+                        public void onResponse(Call<List<demoData>> call, Response<List<demoData>> response) {
+                            myApp.resultDemoData = response.body();
+
+                            if(myApp.resultDemoData == null){
+                                Log.d(TAG,"myApp.resultDemoData == null");
+                                return;
+                            }
+
+                            Iterator it = myApp.resultDemoData.iterator();
+                            while(it.hasNext()) {
+                                Log.d(TAG,((demoData) it.next()).SENSOR);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<demoData>> call, Throwable t)
+                        {
+                            t.printStackTrace();
+                        }
+                    });
+
+//                    Call<List<Repo>> clone = myApp.readOpenData.clone();
+//                    clone.enqueue(new Callback<List<Repo>>() {
+//                        @Override
+//                        public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
+//                            myApp.result = response.body();
+//
+//                            if(myApp.result == null){
+//                                Log.d(TAG,"myApp.result == null");
+//                                return;
+//                            }
+//
+//                            Iterator it = myApp.result.iterator();
+//                            while(it.hasNext()) {
+//                                Log.d(TAG,((Repo) it.next()).name);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<List<Repo>> call, Throwable t)
+//                        {
+//                            t.printStackTrace();
+//                        }
+//                    });
+
                     synchronized (this) {
                         wait(sleepTime);
                     }

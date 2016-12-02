@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,27 +54,40 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
         };
         item_list.setOnItemClickListener(onItemClickListener);
 
+
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        httpClientBuilder.connectTimeout(30, TimeUnit.SECONDS);
+
         Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl("https://api.github.com/")
-                .baseUrl("http://192.168.137.53:8081/PHP_Project_forXAMPP/11-14_projectForAll/")
+//                .baseUrl("http://opendata.epa.gov.tw/")
+                .baseUrl("http://stevendatacloud.duckdns.org/")
+//                .baseUrl("http://192.168.137.53:8081/PHP_Project_forXAMPP/11-14_projectForAll/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClientBuilder.build())
                 .build();
 
         MyApp myApp = (MyApp) getApplicationContext();
         myApp.service = retrofit.create(GitHubService.class);
 
-//        Call<List<Repo>> repos = service.listRepos("octocat");
-//        myApp.repos = myApp.service.listRepos("octocat");
-        myApp.repos = myApp.service.listRepos();
+        myApp.readOpenData = myApp.service.readOpenData();
 
+//        Call<List<Repo>> repos = service.listRepos("octocat");
+        myApp.repos = myApp.service.listRepos("octocat");
+
+        myApp.readLatestOne = myApp.service.readLatest(1);
+
+        myApp.read = myApp.service.read();
 
         //非同步呼叫
-        myApp.repos.enqueue(new Callback<List<Repo>>() {
+        myApp.read.enqueue(new Callback<List<Repo>>() {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 MyApp myApp = (MyApp) getApplicationContext();
                 myApp.result = response.body();
 
+                if(myApp.result == null)
+                    return;
                 Iterator it = myApp.result.iterator();
                 while(it.hasNext()) {
 //                    adapter.add(((Repo) it.next()).name);
@@ -323,8 +338,8 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.custo
 
     public void updateListView() {
         MyApp myApp = (MyApp) getApplicationContext();
-        Call<List<Repo>> reposClone = myApp.repos.clone();
-        reposClone.enqueue(new Callback<List<Repo>>() {
+        Call<List<Repo>> readClone = myApp.read.clone();
+        readClone.enqueue(new Callback<List<Repo>>() {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 MyApp myApp = (MyApp) getApplicationContext();

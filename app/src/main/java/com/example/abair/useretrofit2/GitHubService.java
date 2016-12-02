@@ -15,11 +15,17 @@ import retrofit2.http.Query;
  * Created by abair on 2016/11/18.
  */
 public interface GitHubService {
-//    @GET("users/{user}/repos")
-//    Call<List<Repo>> listRepos(@Path("user") String user);
+    @GET("users/{user}/repos")
+    Call<List<Repo>> listRepos(@Path("user") String user);
+
+    @GET("demo/read/latest/{nRec}/")
+    Call<List<demoData>> readLatest(@Path("nRec") int nRec);
+
+    @GET("ws/Data/REWXQA/?$orderby=SiteName&$skip=0&$top=1&format=json")
+    Call<List<Repo>> readOpenData();
 
     @GET("api/readData.php")
-    Call<List<Repo>> listRepos();
+    Call<List<Repo>> read();
 
     @GET("api/api_delete.php")
     Call<ResponseBody> delete(@Query("cID") String cID);
