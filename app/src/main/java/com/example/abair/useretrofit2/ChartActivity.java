@@ -16,8 +16,10 @@ import com.androidplot.xy.BarRenderer;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class ChartActivity extends AppCompatActivity implements SensorEventListener {
@@ -53,6 +55,16 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
         aprLevelsPlot.addSeries(aLvSeries, new BarFormatter(Color.rgb(0, 0, 200), Color.rgb(0, 0, 0)));
         aprLevelsPlot.addSeries(pLvSeries, new BarFormatter(Color.rgb(0, 200, 0), Color.rgb(0, 0, 0)));
         aprLevelsPlot.addSeries(rLvSeries, new BarFormatter(Color.rgb(200, 0, 0), Color.rgb(0, 0, 0)));
+
+        aprLevelsPlot.setDomainStepValue(3);
+        aprLevelsPlot.setLinesPerRangeLabel(3);
+
+        aprLevelsPlot.setDomainLabel("");
+        aprLevelsPlot.getDomainTitle().pack();
+        aprLevelsPlot.setRangeLabel("角度");
+        aprLevelsPlot.getRangeTitle().pack();
+        aprLevelsPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#"));
+        aprLevelsPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).getPaint().setColor(Color.TRANSPARENT);
 
         aprLevelsPlot.setRangeBoundaries(-180, 359, BoundaryMode.FIXED);
         aprLevelsPlot.setDomainBoundaries(-1, 1, BoundaryMode.FIXED);
