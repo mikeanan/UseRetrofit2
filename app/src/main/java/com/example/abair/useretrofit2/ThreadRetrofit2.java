@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,8 +20,12 @@ public class ThreadRetrofit2 implements Runnable {
     private boolean keepAlive;
     private Thread thread;
     private MyApp myApp;
+    private Context context;
+    private Random random;
 
     public ThreadRetrofit2(Context context, float maxRefreshRate, boolean startImmediately) {
+        this.context = context;
+        random = new Random();
         this.myApp = (MyApp) context.getApplicationContext();
 
         setMaxRefreshRate(maxRefreshRate);
@@ -55,29 +60,34 @@ public class ThreadRetrofit2 implements Runnable {
         try {
             while(keepAlive) {
                 if(keepRunning) {
-                    Call<List<demoData>> readLatestOneClone = myApp.readLatestOne.clone();
-                    readLatestOneClone.enqueue(new Callback<List<demoData>>() {
-                        @Override
-                        public void onResponse(Call<List<demoData>> call, Response<List<demoData>> response) {
-                            myApp.resultDemoData = response.body();
+//                    Call<List<demoData>> readLatestOneClone = myApp.readLatestOne.clone();
+//                    readLatestOneClone.enqueue(new Callback<List<demoData>>() {
+//                        @Override
+//                        public void onResponse(Call<List<demoData>> call, Response<List<demoData>> response) {
+//                            myApp.resultDemoData = response.body();
+//
+//                            if(myApp.resultDemoData == null){
+//                                Log.d(TAG,"myApp.resultDemoData == null");
+//                                return;
+//                            }
+//
+//                            Iterator it = myApp.resultDemoData.iterator();
+//                            while(it.hasNext()) {
+//                                Log.d(TAG,((demoData) it.next()).SENSOR);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<List<demoData>> call, Throwable t)
+//                        {
+//                            t.printStackTrace();
+//                        }
+//                    });
 
-                            if(myApp.resultDemoData == null){
-                                Log.d(TAG,"myApp.resultDemoData == null");
-                                return;
-                            }
+                    ((ChartActivity)context).setEmulatedData(   random.nextInt(50)+280,
+                                                                random.nextInt(60)-30,
+                                                                random.nextInt(30)-150);
 
-                            Iterator it = myApp.resultDemoData.iterator();
-                            while(it.hasNext()) {
-                                Log.d(TAG,((demoData) it.next()).SENSOR);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<demoData>> call, Throwable t)
-                        {
-                            t.printStackTrace();
-                        }
-                    });
 
 //                    Call<List<Repo>> clone = myApp.readOpenData.clone();
 //                    clone.enqueue(new Callback<List<Repo>>() {
