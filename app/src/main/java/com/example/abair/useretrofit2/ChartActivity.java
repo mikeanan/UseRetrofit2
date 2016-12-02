@@ -9,10 +9,12 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.androidplot.Plot;
 import com.androidplot.util.Redrawer;
 import com.androidplot.xy.BarFormatter;
 import com.androidplot.xy.BarRenderer;
 import com.androidplot.xy.BoundaryMode;
+import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 
@@ -20,12 +22,17 @@ import java.util.Arrays;
 
 public class ChartActivity extends AppCompatActivity implements SensorEventListener {
 
-    private XYPlot aprHistoryPlot = null;
     private XYPlot aprLevelsPlot = null;
 
     private SimpleXYSeries aLvSeries;
     private SimpleXYSeries pLvSeries;
     private SimpleXYSeries rLvSeries;
+    
+    private XYPlot aprHistoryPlot = null;
+
+    private SimpleXYSeries aHtSeries;
+    private SimpleXYSeries pHtSeries;
+    private SimpleXYSeries rHtSeries;
 
     private Redrawer redrawer;
     private SensorManager sensorManager = null;
@@ -69,7 +76,20 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
 
         sensorManager.registerListener(this, sensorOrientation, SensorManager.SENSOR_DELAY_UI);
 
-        redrawer = new Redrawer(aprLevelsPlot, 3, false);
+        aprHistoryPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
+
+        aHtSeries = new SimpleXYSeries("A");
+        aHtSeries.useImplicitXVals();
+        pHtSeries = new SimpleXYSeries("P");
+        pHtSeries.useImplicitXVals();
+        rHtSeries = new SimpleXYSeries("R");
+        rHtSeries.useImplicitXVals();
+
+        aprHistoryPlot.addSeries(aHtSeries, new LineAndPointFormatter(Color.rgb(0, 0, 200), null, null, null));
+        aprHistoryPlot.addSeries(pHtSeries, new LineAndPointFormatter(Color.rgb(0, 200, 0), null, null, null));
+        aprHistoryPlot.addSeries(rHtSeries, new LineAndPointFormatter(Color.rgb(200, 0, 0), null, null, null));
+
+        redrawer = new Redrawer(Arrays.asList(new Plot[]{aprLevelsPlot, aprHistoryPlot}), 3, false);
     }
 
     @Override
@@ -98,6 +118,10 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
                             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
         rLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[2]}),
                             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+
+        aHtSeries.addFirst(null, sensorEvent.values[0]);
+        pHtSeries.addFirst(null, sensorEvent.values[1]);
+        rHtSeries.addFirst(null, sensorEvent.values[2]);
     }
 
     @Override
