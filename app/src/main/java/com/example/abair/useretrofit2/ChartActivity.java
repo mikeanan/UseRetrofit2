@@ -37,6 +37,7 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
     private Redrawer redrawer;
     private SensorManager sensorManager = null;
     private Sensor sensorOrientation = null;
+    private  int HISTORY_SIZE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,15 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
         rHtSeries = new SimpleXYSeries("R");
         rHtSeries.useImplicitXVals();
 
+        for(int i = 0; i< HISTORY_SIZE; ++i){
+            aHtSeries.addLast(null, 0);
+            pHtSeries.addLast(null, 0);
+            rHtSeries.addLast(null, 0);
+        }
+
+        aprHistoryPlot.setRangeBoundaries(-180, 359, BoundaryMode.FIXED);
+        aprHistoryPlot.setDomainBoundaries(0, HISTORY_SIZE, BoundaryMode.FIXED);
+
         aprHistoryPlot.addSeries(aHtSeries, new LineAndPointFormatter(Color.rgb(0, 0, 200), null, null, null));
         aprHistoryPlot.addSeries(pHtSeries, new LineAndPointFormatter(Color.rgb(0, 200, 0), null, null, null));
         aprHistoryPlot.addSeries(rHtSeries, new LineAndPointFormatter(Color.rgb(200, 0, 0), null, null, null));
@@ -118,6 +128,12 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
                             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
         rLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[2]}),
                             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+
+        if(aHtSeries.size() > HISTORY_SIZE - 1){
+            aHtSeries.removeFirst();
+            pHtSeries.removeFirst();
+            rHtSeries.removeFirst();
+        }
 
         aHtSeries.addLast(null, sensorEvent.values[0]);
         pHtSeries.addLast(null, sensorEvent.values[1]);
