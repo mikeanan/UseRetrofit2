@@ -38,7 +38,11 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
 
     private Redrawer redrawer;
     private SensorManager sensorManager = null;
-    private Sensor sensorOrientation = null;
+    private Sensor accSensor = null;
+    private Sensor magSensor = null;
+    private float[] mGravity = null;
+    private float[] mGeomagnetic = null;
+
     private  int HISTORY_SIZE = 1000;
 
     @Override
@@ -75,19 +79,18 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
             barRenderer.setStyle(BarRenderer.Style.SIDE_BY_SIDE);
         }
 
-        sensorManager = (SensorManager) getApplicationContext().getSystemService(Context.SENSOR_SERVICE);
-        for(Sensor sensor : sensorManager.getSensorList(Sensor.TYPE_ORIENTATION)) {
-            if(sensor.getType() == Sensor.TYPE_ORIENTATION){
-                sensorOrientation = sensor;
-            }
-        }
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        magSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        if(sensorOrientation == null){
+        if (accSensor == null || magSensor == null) {
             sensorManager.unregisterListener(this);
             finish();
         }
 
-        sensorManager.registerListener(this, sensorOrientation, SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, magSensor, SensorManager.SENSOR_DELAY_UI);
+
 
         aprHistoryPlot = (XYPlot) findViewById(R.id.aprHistoryPlot);
 
@@ -134,22 +137,30 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        aLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[0]}),
-                            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
-        pLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[1]}),
-                            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
-        rLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[2]}),
-                            SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+            mGravity = sensorEvent.values;
 
-        if(aHtSeries.size() > HISTORY_SIZE - 1){
-            aHtSeries.removeFirst();
-            pHtSeries.removeFirst();
-            rHtSeries.removeFirst();
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+            mGeomagnetic = sensorEvent.values;
+
+        if (mGravity != null && mGeomagnetic != null) {
+            aLvSeries.setModel( Arrays.asList( new Number[]{mGeomagnetic[0]}),
+                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+            pLvSeries.setModel( Arrays.asList( new Number[]{mGravity[0]}),
+                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+            rLvSeries.setModel( Arrays.asList( new Number[]{mGravity[1]}),
+                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+
+            if(aHtSeries.size() > HISTORY_SIZE - 1){
+                aHtSeries.removeFirst();
+                pHtSeries.removeFirst();
+                rHtSeries.removeFirst();
+            }
+
+            aHtSeries.addLast(null, mGeomagnetic[0]);
+            pHtSeries.addLast(null, mGravity[0]);
+            rHtSeries.addLast(null, mGravity[1]);
         }
-
-        aHtSeries.addLast(null, sensorEvent.values[0]);
-        pHtSeries.addLast(null, sensorEvent.values[1]);
-        rHtSeries.addLast(null, sensorEvent.values[2]);
     }
 
     @Override
