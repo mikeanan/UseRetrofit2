@@ -119,9 +119,9 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
         rLvSeries.setModel( Arrays.asList( new Number[]{sensorEvent.values[2]}),
                             SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
 
-        aHtSeries.addFirst(null, sensorEvent.values[0]);
-        pHtSeries.addFirst(null, sensorEvent.values[1]);
-        rHtSeries.addFirst(null, sensorEvent.values[2]);
+        aHtSeries.addLast(null, sensorEvent.values[0]);
+        pHtSeries.addLast(null, sensorEvent.values[1]);
+        rHtSeries.addLast(null, sensorEvent.values[2]);
     }
 
     @Override
