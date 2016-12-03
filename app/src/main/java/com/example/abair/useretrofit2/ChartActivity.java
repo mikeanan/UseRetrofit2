@@ -29,7 +29,7 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
     private SimpleXYSeries aLvSeries;
     private SimpleXYSeries pLvSeries;
     private SimpleXYSeries rLvSeries;
-    
+
     private XYPlot aprHistoryPlot = null;
 
     private SimpleXYSeries aHtSeries;
@@ -159,12 +159,12 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
             mGeomagnetic = sensorEvent.values;
 
         if (mGravity != null && mGeomagnetic != null) {
-            aLvSeries.setModel( Arrays.asList( new Number[]{mGeomagnetic[0]}),
-                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
-            pLvSeries.setModel( Arrays.asList( new Number[]{mGravity[0]}),
-                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
-            rLvSeries.setModel( Arrays.asList( new Number[]{mGravity[1]}),
-                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+//            aLvSeries.setModel( Arrays.asList( new Number[]{mGeomagnetic[0]}),
+//                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+//            pLvSeries.setModel( Arrays.asList( new Number[]{mGravity[0]}),
+//                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+//            rLvSeries.setModel( Arrays.asList( new Number[]{mGravity[1]}),
+//                                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
 
 //            if(aHtSeries.size() > HISTORY_SIZE - 1){
 //                aHtSeries.removeFirst();
@@ -181,6 +181,13 @@ public class ChartActivity extends AppCompatActivity implements SensorEventListe
     }
 
     public void setEmulatedData(int a, int p, int r){
+        aLvSeries.setModel( Arrays.asList( new Number[]{a}),
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+        pLvSeries.setModel( Arrays.asList( new Number[]{p}),
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+        rLvSeries.setModel( Arrays.asList( new Number[]{r}),
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY);
+
         if(aHtSeries.size() > HISTORY_SIZE - 1){
             aHtSeries.removeFirst();
             pHtSeries.removeFirst();

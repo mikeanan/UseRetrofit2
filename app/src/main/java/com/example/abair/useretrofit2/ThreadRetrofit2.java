@@ -23,6 +23,8 @@ public class ThreadRetrofit2 implements Runnable {
     private Context context;
     private Random random;
 
+    private int count = 0;
+
     public ThreadRetrofit2(Context context, float maxRefreshRate, boolean startImmediately) {
         this.context = context;
         random = new Random();
@@ -60,29 +62,33 @@ public class ThreadRetrofit2 implements Runnable {
         try {
             while(keepAlive) {
                 if(keepRunning) {
-//                    Call<List<demoData>> readLatestOneClone = myApp.readLatestOne.clone();
-//                    readLatestOneClone.enqueue(new Callback<List<demoData>>() {
-//                        @Override
-//                        public void onResponse(Call<List<demoData>> call, Response<List<demoData>> response) {
-//                            myApp.resultDemoData = response.body();
-//
-//                            if(myApp.resultDemoData == null){
-//                                Log.d(TAG,"myApp.resultDemoData == null");
-//                                return;
-//                            }
-//
+                    Call<List<demoData>> readLatestOneClone = myApp.readLatestOne.clone();
+                    readLatestOneClone.enqueue(new Callback<List<demoData>>() {
+                        @Override
+                        public void onResponse(Call<List<demoData>> call, Response<List<demoData>> response) {
+                            myApp.resultDemoData = response.body();
+                            count += 1;
+                            if(count % 100 == 0)
+                                Log.d(TAG, String.valueOf(count));
+
+                            if(myApp.resultDemoData == null){
+                                Log.d(TAG,"myApp.resultDemoData == null");
+                                return;
+                            }
+
 //                            Iterator it = myApp.resultDemoData.iterator();
 //                            while(it.hasNext()) {
 //                                Log.d(TAG,((demoData) it.next()).SENSOR);
 //                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<List<demoData>> call, Throwable t)
-//                        {
-//                            t.printStackTrace();
-//                        }
-//                    });
+                            Log.d(TAG, myApp.resultDemoData.get(0).SENSOR);
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<demoData>> call, Throwable t)
+                        {
+                            t.printStackTrace();
+                        }
+                    });
 
                     ((ChartActivity)context).setEmulatedData(   random.nextInt(50)+280,
                                                                 random.nextInt(60)-30,
